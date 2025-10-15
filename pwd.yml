@@ -11,6 +11,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps
     environment:
       DB_HOST: db
       DB_PORT: "3306"
@@ -45,7 +46,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-
+      - ./apps:/home/frappe/frappe-bench/apps
   create-site:
     image: frappe/erpnext:v15.82.1
     networks:
@@ -56,6 +57,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps
     entrypoint:
       - bash
       - -c
@@ -69,7 +71,7 @@ services:
           [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_cache // empty"` ]] && \
           [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_queue // empty"` ]];
         do
-          echo "Waiting for sites/common_site_config.json to be created";
+          echo "Waiting for sites/common_site_config.json to be created";s
           sleep 5;
           if (( `date +%s`-start > 120 )); then
             echo "could not find sites/common_site_config.json with required keys";
@@ -77,7 +79,7 @@ services:
           fi
         done;
         echo "sites/common_site_config.json found";
-        bench new-site --mariadb-user-host-login-scope='%' --admin-password=admin --db-root-username=root --db-root-password=admin --install-app erpnext --set-default frontend;
+        bench new-site --mariadb-user-host-login-scope='%' --admin-password=admin --db-root-username=root --db-root-password=admin --install-app erpnext --install-app insights --set-default frontend;
 
   db:
     image: mariadb:10.6
@@ -124,8 +126,9 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps
     ports:
-      - "8080:8080"
+      - "80:8080"
 
   queue-long:
     image: frappe/erpnext:v15.82.1
@@ -142,6 +145,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps
 
   queue-short:
     image: frappe/erpnext:v15.82.1
@@ -158,6 +162,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps
 
   redis-queue:
     image: redis:6.2-alpine
@@ -190,6 +195,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps
 
   websocket:
     image: frappe/erpnext:v15.82.1
@@ -204,12 +210,14 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
+      - ./apps:/home/frappe/frappe-bench/apps
 
 volumes:
   db-data:
   redis-queue-data:
   sites:
   logs:
+  apps:
 
 networks:
   frappe_network:
