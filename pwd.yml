@@ -11,7 +11,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps  # เพิ่มบรรทัดนี้
+      - ./apps/frappe/custom:/home/frappe/frappe-bench/apps/frappe/frappe/rental
     environment:
       DB_HOST: db
       DB_PORT: "3306"
@@ -46,7 +46,6 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps  # เพิ่มบรรทัดนี้
 
   create-site:
     image: frappe/erpnext:v15.83.0
@@ -58,7 +57,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps  # เพิ่มบรรทัดนี้
+      - ./apps/frappe/custom:/home/frappe/frappe-bench/apps/frappe/frappe/rental
     entrypoint:
       - bash
       - -c
@@ -127,7 +126,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps  # เพิ่มบรรทัดนี้
+      - ./apps/frappe/custom:/home/frappe/frappe-bench/apps/frappe/frappe/rental
     ports:
       - "80:8080"
 
@@ -146,7 +145,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps  # เพิ่มบรรทัดนี้
+      - ./apps/frappe/custom:/home/frappe/frappe-bench/apps/frappe/frappe/rental
     environment:
       FRAPPE_REDIS_CACHE: redis://redis-cache:6379
       FRAPPE_REDIS_QUEUE: redis://redis-queue:6379
@@ -166,7 +165,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps  # เพิ่มบรรทัดนี้
+      - ./apps/frappe/custom:/home/frappe/frappe-bench/apps/frappe/frappe/rental
     environment:
       FRAPPE_REDIS_CACHE: redis://redis-cache:6379
       FRAPPE_REDIS_QUEUE: redis://redis-queue:6379
@@ -202,7 +201,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps  # เพิ่มบรรทัดนี้
+      - ./apps/frappe/custom:/home/frappe/frappe-bench/apps/frappe/frappe/rental
 
   websocket:
     image: frappe/erpnext:v15.83.0
@@ -220,14 +219,13 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/frappe-bench/logs
-      - apps:/home/frappe/frappe-bench/apps  # เพิ่มบรรทัดนี้
+      - ./apps/frappe/custom:/home/frappe/frappe-bench/apps/frappe/frappe/rental
 
 volumes:
   db-data:
   redis-queue-data:
   sites:
   logs:
-  apps:  # เพิ่ม volume สำหรับ apps
 
 networks:
   frappe_network:
