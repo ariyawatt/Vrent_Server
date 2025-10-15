@@ -28,5 +28,3 @@ venv
 
 # NodeJS
 node_modules
-
-!apps/frappe/custom/
